@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    type: server
+spec:
+  containers:
+  - name: server
+    image: nginx:latest
+    resources:
+      requests:
+        memory: "512M"
+        cpu: "250m"
+      limits:
+        memory: "1G"
+        cpu: "500m"
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5 #배포 후 헬스 체크 지연 시간 설정
+      timeoutSeconds: 2 #제한 시간
+      periodSeconds: 5 #확인 주기
+      failureThreshold: 1 #확인 재시도 횟수
